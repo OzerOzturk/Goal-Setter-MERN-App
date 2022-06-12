@@ -69,8 +69,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid credentials, check your inputs");
   }
-
-  res.json({ message: "Login User" });
 });
 
 // @desc Get user data
@@ -78,7 +76,12 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const getMe = asyncHandler(async (req, res) => {
-  res.json({ message: "User data display" });
+  const { _id, name, email } = await User.findById(req.user.id);
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  });
 });
 
 //Generate JSON Web Token (JWT)
